@@ -1,0 +1,236 @@
+This is pdfTeX, Version 3.14159-1.10b (Web2C 7.4.5) (format=pdflatex 2004.3.25)  6 OCT 2006 17:15
+**spiceweasel.tex
+(./spiceweasel.tex{/usr/share/texmf/pdftex/config/pdftex.cfg}
+LaTeX2e <2001/06/01>
+Babel <v3.7h> and hyphenation patterns for american, french, german, ngerman, n
+ohyphenation, loaded.
+(/usr/share/texmf/tex/latex/base/article.cls
+Document Class: article 2001/04/21 v1.4e Standard LaTeX document class
+(/usr/share/texmf/tex/latex/base/size12.clo
+File: size12.clo 2001/04/21 v1.4e Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+(/usr/share/texmf/tex/latex/graphics/graphicx.sty
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texmf/tex/latex/graphics/keyval.sty
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks14
+)
+(/usr/share/texmf/tex/latex/graphics/graphics.sty
+Package: graphics 2001/07/07 v1.0n Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texmf/tex/latex/graphics/trig.sty
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+(/usr/share/texmf/tex/latex/config/graphics.cfg
+File: graphics.cfg 2001/08/31 v1.1 graphics configuration of teTeX/TeXLive
+)
+Package graphics Info: Driver file: pdftex.def on input line 80.
+
+(/usr/share/texmf/tex/latex/graphics/pdftex.def
+File: pdftex.def 2002/06/19 v0.03k graphics/color for pdftex
+\Gread@gobject=\count87
+))
+\Gin@req@height=\dimen103
+\Gin@req@width=\dimen104
+) (./spiceweasel.aux)
+\openout1 = `spiceweasel.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 7.
+LaTeX Font Info:    ... okay on input line 7.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 7.
+LaTeX Font Info:    ... okay on input line 7.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 7.
+LaTeX Font Info:    ... okay on input line 7.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 7.
+LaTeX Font Info:    ... okay on input line 7.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 7.
+LaTeX Font Info:    ... okay on input line 7.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 7.
+LaTeX Font Info:    ... okay on input line 7.
+
+(/usr/share/texmf/tex/context/base/supp-pdf.tex
+(/usr/share/texmf/tex/context/base/supp-mis.tex
+loading : Context Support Macros / Missing
+\protectiondepth=\count88
+\scratchcounter=\count89
+\scratchtoks=\toks15
+\scratchdimen=\dimen105
+\scratchskip=\skip43
+\scratchmuskip=\muskip10
+\scratchbox=\box26
+\scratchread=\read1
+\scratchwrite=\write3
+\zeropoint=\dimen106
+\minusone=\count90
+\thousandpoint=\dimen107
+\emptytoks=\toks16
+\nextbox=\box27
+\nextdepth=\dimen108
+\everyline=\toks17
+\!!counta=\count91
+\!!countb=\count92
+\recursecounter=\count93
+)
+loading : Context Support Macros / PDF
+\nofMPsegments=\count94
+\nofMParguments=\count95
+\everyMPtoPDFconversion=\toks18
+)
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <14.4> on input line 13.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 13.
+ (./spiceweasel.toc
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 5.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 5.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 5.
+)
+\tf@toc=\write4
+\openout4 = `spiceweasel.toc'.
+
+ [1
+
+{/usr/share/texmf/dvips/config/pdftex.map}] [2]
+[3]
+Overfull \hbox (5.87402pt too wide) in paragraph at lines 111--114
+[]/cmr12/If you have a set of im-ages in PNG for-mat named ``/cmtt12/15232[]fra
+me[]0500.png/cmr12/''
+ []
+
+[4] [5] [6]
+Overfull \hbox (32.43951pt too wide) in paragraph at lines 255--258
+/cmr12/For ex-am-ple, say the spiceweasel ex-e-cutable is /cmtt12//home/me/imag
+e[]proc/spiceweasel
+ []
+
+
+Overfull \hbox (2.12721pt too wide) in paragraph at lines 255--258
+/cmr12/and you've set /cmtt12/SPS[]PATH = `/home/me/sps[]scripts/'/cmr12/. Run-
+ning spiceweasel
+ []
+
+
+Overfull \hbox (57.9144pt too wide) in paragraph at lines 263--266
+/cmr12/will first look for /cmtt12//home/me/standard.sps/cmr12/, then /cmtt12//
+home/me/sps[]scripts/standard.sps
+ []
+
+[7] <gamma.png, id=42, 375.4025pt x 222.8325pt>
+File: gamma.png Graphic file (type png)
+ <use gamma.png>
+<gamma_eg.png, id=43, 385.44pt x 112.42pt>
+File: gamma_eg.png Graphic file (type png)
+ <use gamma_eg.png> [8 <./gamma.png> <./gamma_eg.png>] <gaussblur_eg.png, id=53
+, 385.44pt x 112.42pt>
+File: gaussblur_eg.png Graphic file (type png)
+
+<use gaussblur_eg.png> <despeckle_eg.png, id=54, 385.44pt x 112.42pt>
+File: despeckle_eg.png Graphic file (type png)
+
+<use despeckle_eg.png> [9 <./gaussblur_eg.png> <./despeckle_eg.png>]
+<unsharp_eg.png, id=58, 385.44pt x 112.42pt>
+File: unsharp_eg.png Graphic file (type png)
+ <use unsharp_eg.png> [10 <./unsharp_eg.png>] <blockdiagram.jpg, id=62, 571.384
+69pt x 201.75375pt>
+File: blockdiagram.jpg Graphic file (type jpg)
+
+<use blockdiagram.jpg>
+Overfull \hbox (12.87766pt too wide) in paragraph at lines 454--456
+[]/cmr12/Each im-age is stored in a struc-ture called /cmtt12/TFrame/cmr12/, de
+-fined in /cmtt12/spiceweasel.h/cmr12/: 
+ []
+
+[11 <./blockdiagram.jpg>]
+Overfull \hbox (36.07521pt too wide) in paragraph at lines 466--466
+[]  /cmtt12/int allocated;      /* Indicates whether data has been allocated */
+[] 
+ []
+
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 480.
+
+(/usr/share/texmf/tex/latex/base/omscmr.fd
+File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <12> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 480.
+
+Overfull \hbox (69.8959pt too wide) in paragraph at lines 499--502
+[]/cmtt12/int process[]frames(TFrame **framebuffer, int nframes, int centrefram
+e,
+ []
+
+[12] [13] <script1.png, id=73, 818.05624pt x 514.92375pt>
+File: script1.png Graphic file (type png)
+ <use script1.png>
+Overfull \hbox (11.71463pt too wide) in paragraph at lines 578--586
+/cmr12/the func-tion /cmtt12/resolve[]script() /cmr12/calls /cmtt12/resolve[]sc
+ript[]rec(char *name)/cmr12/, pass-
+ []
+
+[14] [15 <./script1.png>]
+Overfull \hbox (48.42522pt too wide) in paragraph at lines 632--632
+[]/cmtt12/typedef struct { /* Set of sequential commands for processing frames 
+*/[] 
+ []
+
+[16]
+Overfull \hbox (46.9249pt too wide) in paragraph at lines 707--707
+ []      /cmtt12/printf("Error line %d: Amplify has one argument\n", linenr);[]
+ 
+ []
+
+
+Overfull \hbox (182.77496pt too wide) in paragraph at lines 707--707
+ []      /cmtt12/printf("Error line %d: Argument to amplify is a floating point
+ number\n", linenr);[] 
+ []
+
+[17]
+Overfull \hbox (23.9994pt too wide) in paragraph at lines 716--724
+[]/cmr12/Add a /cmtt12/case /cmr12/state-ment for your func-tion to /cmtt12/pro
+cess[]frames() /cmr12/in run[]script.c
+ []
+
+
+Overfull \hbox (0.67464pt too wide) in paragraph at lines 724--727
+[]/cmr12/(optional) Add your func-tion to /cmtt12/dummy[]script() /cmr12/in /cm
+tt12/process[]script.c/cmr12/.
+ []
+
+[18] (./spiceweasel.aux) ) 
+Here is how much of TeX's memory you used:
+ 959 strings out of 95437
+ 11696 string characters out of 1188125
+ 59000 words of memory out of 1000001
+ 3989 multiletter control sequences out of 10000+50000
+ 8977 words of font info for 32 fonts, out of 500000 for 1000
+ 14 hyphenation exceptions out of 1000
+ 25i,6n,19p,206b,394s stack positions out of 1500i,500n,5000p,200000b,5000s
+ 88 PDF objects out of 300000
+ 0 named destinations out of 131072
+ 35 words of extra memory for PDF output out of 65536
+{/usr/share/texmf/dvips/tetex/aae443f0.enc}</usr/shar
+e/texmf/fonts/type1/bluesky/cm/cmmi8.pfb>{/usr/share/texmf/dvips/tetex/f7b6d320
+.enc}</usr/share/texmf/fonts/type1/bluesky/cm/cmr8.pfb></usr/share/texmf/fonts/
+type1/bluesky/cm/cmmi12.pfb>{/usr/share/texmf/dvips/tetex/bbad153f.enc}</usr/sh
+are/texmf/fonts/type1/bluesky/cm/cmsy10.pfb>{/usr/share/texmf/dvips/tetex/09fbb
+fac.enc}</usr/share/texmf/fonts/type1/bluesky/cm/cmtt12.pfb></usr/share/texmf/f
+onts/type1/bluesky/cm/cmbx12.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmr12
+.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmr17.pfb>
+Output written on spiceweasel.pdf (18 pages, 254241 bytes).

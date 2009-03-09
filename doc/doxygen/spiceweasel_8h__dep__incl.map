@@ -1,0 +1,10 @@
+base referer
+rect $io__bmp_8c.html 187,6 261,30
+rect $io__ipx_8h.html 191,155 257,179
+rect $io__ipx_8c.html 356,68 423,92
+rect $read__main_8c.html 341,142 437,166
+rect $spiceweasel_8c.html 337,190 441,214
+rect $io__png_8c.html 188,254 260,278
+rect $process__frames_8c.html 160,302 288,326
+rect $process__script_8c.html 165,350 283,374
+rect $run__script_8c.html 179,398 269,422

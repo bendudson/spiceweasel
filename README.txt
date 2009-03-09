@@ -1,0 +1,116 @@
+SPICE-WEASEL Photron image enhancement version 1.0
+
+Ben Dudson July 2006.
+
+FORMAT:
+
+spiceweasel <start frame> <last frame> <window width> [options]
+
+OPTIONS:
+
+-i <input file>           Set input file. Can be either a set of
+                          bitmaps, png files or an IPX video
+
+-s <shot number>          Input a photron IPX video for a shot
+
+-o <output file>          Set output file. Can be bmp, png files
+                          or an IPX video.
+                          e.g. -o processed.ipx
+
+-p <processing script>    set processing script. default is
+                          "default.sps"
+
+
+Processing is controlled by a scripting language which can be used
+to do many different image processing tasks. The commands include
+
+- Amplify by a constant factor
+- Normalize to maximize contrast
+- Gamma correct to enhance dim features
+- despeckle using median filter
+- despeckle using edge preserving kuwahara filter
+- Sharpen using a simple edge enhancement algorithm
+- Sharpen using unsharp masking method
+
+The code has a sliding window buffer, from which a background frame
+can be calculated. Currently the background calculations are:
+
+- Pixelwise minimum over the buffer
+- Pixelwise average
+
+This background can then be subtracted from the original which results in
+an enhancement of transient events like filaments.
+
+See the manual in doc/ directory for how to write processing scripts
+and other info.
+
+EXAMPLES:
+
+spiceweasel <start frame> <last frame> <window width> [options]
+
+Without options, the default input file (currently set to 
+$MAST_IMAGES/rbb/rbb015368.ipx) and output files will be used.
+
+To process frames 1000 to 1100 with 10 frames either side, run
+
+spiceweasel 1000 1100 21
+
+This will produce a set of frames in the current directory named
+"processed_1010.png" to "processed_1090.png"
+Note that only 81 frames are produced because of the width of the window.
+
+To set the input file(s), use the "-i" option. 
+
+e.g If you have a set of frames of the form "15232_frame_00053.png"
+    you want to process then use the option
+
+-i 15232_frame_%05d.png
+
+(It's a zero, not a capital o).
+This is a C printf format where the %05d will be replaced by the frame number.
+%d on its own just prints the number e.g. "15232_frame_53.png", %5d prints
+5 digits with spaces like "15232_frame_   53.png". 
+To pad with zeros, use %05d to produce "15232_frame_00053.png"
+More info on printf formatting, run "man -S3 printf"
+
+If the name you give as input ends in ".png", it will be read as a
+compressed PNG file, if in ".bmp" then as an uncompressed bitmap file (24-bit). 
+
+To read in an IPX file, just supply the name of the file
+e.g.
+
+-i $MAST_IMAGES/rbb/rbb015232.ipx
+
+that's it! If the name of the input ends in ".ipx", the weasel will try to read
+it as an IPX file. To read in a photron image from a shot (e.g. 15232 as above)
+you can also just use:
+
+-s 15232
+
+The output option "-o" works in exactly the same as the input. To output to a
+directory "~/processed" with files named like "15232_frame_00247.png", use
+
+-o ~/processed/15232_frame_%05d.png
+
+EXAMPLES:
+
+1. Process frames 1500 to 2000 for photron camera shot 15368 and output as a set of png
+   images with a window 15 frames either side:
+
+   spiceweasel 1500 2000 31 -i $MAST_IMAGES/rbb/rbb015368.ipx
+
+2. Process frames 1000 to 1500 for shot 15232 using processing script "example.sps"
+   with window 10 either side and output to IPX file "processed.ipx":
+
+   spiceweasel 1000 1500 21 -s 15232 -o processed.ipx
+
+
+If you want to change the default inputs and outputs, they're set in "spiceweasel.h"
+DEFAULT_INPUT_NAME and DEFAULT_OUTPUT_NAME.
+
+I think i've made most of the error messages quite self-explanatory, but if not
+then find me/write me an email.
+
+
+Enjoy!
+
