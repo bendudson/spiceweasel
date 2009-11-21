@@ -1,13 +1,14 @@
 
-OPENJPEG = /home/bdudson/mast_video/openjpeg/
+OPENJPEG=/hwdisks/home/bd512/local/
+#OPENJPEG = /home/bdudson/mast_video/openjpeg/
 #OPENJPEG = ../openjpeg/
 #OPENJPEG = ../openjpeg/dist/
 
 CC = gcc -c
 LD = gcc -o
-CFLAGS = -Wall
-INCLUDES = -I$(OPENJPEG)
-LIBS = -lpthread -lpng -L$(OPENJPEG) -lopenjpeg
+CFLAGS = -Wall -g
+INCLUDES = -I$(OPENJPEG)/include
+LIBS = -lpthread -lpng -L$(OPENJPEG)/lib -lopenjpeg
 
 OBJS = spiceweasel.o io_png.o io_bmp.o process_frames.o read_main.o io_ipx.o \
        process_script.o parse_nextline.o run_script.o

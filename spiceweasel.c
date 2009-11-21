@@ -606,6 +606,7 @@ int main(int argc, char **argv)
   finished = 0;
   status = -1;
 
+#ifndef SINGLE_THREAD
   /********* CREATE I/O THREADS *********/
   if(startframe <= endframe) { /* Check there are more frames to read */
 
@@ -631,6 +632,9 @@ int main(int argc, char **argv)
     return(1);
   }    
   printf("done\n");
+#else
+  printf("Single-threaded version\n");
+#endif // SINGLE_THREAD
 
   /*********** START PROCESSING LOOP *********/
 
@@ -639,7 +643,7 @@ int main(int argc, char **argv)
   do {
 
     /* Check input and output processes are ready */
-
+#ifndef SINGLE_THREAD
     if(finished != 1) {  /* If 1, input thread doesn't exist */
       pthread_mutex_lock(&input_ready_mutex);
       while(input_ready == cycle) {
@@ -654,14 +658,17 @@ int main(int argc, char **argv)
     }
     output_ready = cycle ^ 1;
     pthread_mutex_unlock(&output_ready_mutex);
+#endif
     
     last_read = frame_read;
     last_written = frame_written;
 
+#ifndef SINGLE_THREAD
     pthread_mutex_lock(&process_ready_mutex);
     process_ready = cycle;
     pthread_cond_broadcast(&process_ready_cond);
     pthread_mutex_unlock(&process_ready_mutex);
+#endif
     
     printf("\r Input %5d Output %5d Progress %2.f%%", 
 	   last_read, last_written, progress / total);
@@ -672,7 +679,12 @@ int main(int argc, char **argv)
       /* This just skips reading first time around - all data in buffer */
       status = 0;
     }else {
+
+#ifdef SINGLE_THREAD
+      /* Need to read in the next frame */
       
+#endif
+
       /* Check if this is the last frame */
       if(input_frame[cycle]->last == 1) {
 	//printf("Processing reached last frame: %d\n", input_frame[cycle]->number);
