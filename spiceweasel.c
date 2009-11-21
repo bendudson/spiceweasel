@@ -533,6 +533,13 @@ int main(int argc, char **argv)
     printf("Error: Unrecognised output format\n");
     return(1);
   }
+
+  /******** PRINT INTRO PUFF *********/
+
+  printf("\n   Spice-Weasel photron video enhancement\n");
+  printf("Knocking MAST videos up a notch since april 2006\n");
+  printf("      Developed by B.Dudson and A.Meakins\n\n");
+
   
   /************ READ PROCESSING SCRIPT ************/
   
@@ -540,12 +547,6 @@ int main(int argc, char **argv)
     /* Some error compiling script */
     return(1);
   }
-
-  /******** PRINT INTRO PUFF *********/
-
-  printf("\n   Spice-Weasel photron video enhancement\n");
-  printf("Knocking MAST videos up a notch since april 2006\n");
-  printf("      Developed by B.Dudson and A.Meakins\n\n");
 
   /******** INITIALIZE FRAME BUFFER **********/
 
@@ -682,7 +683,10 @@ int main(int argc, char **argv)
 
 #ifdef SINGLE_THREAD
       /* Need to read in the next frame */
-      
+      frame_read++;
+      read_frame(frame_read, input_frame[cycle]);
+      if(frame_read == endframe)
+	input_frame[cycle]->last = 1;
 #endif
 
       /* Check if this is the last frame */
@@ -714,11 +718,20 @@ int main(int argc, char **argv)
 
     /******************************************/
 
+#ifdef SINGLE_THREAD
+    /* Write out frame */
+    write_frame(output_frame[cycle]);
+    frame_written = output_frame[cycle]->number; 
+#else
+    /* Mult-threaded */
     cycle ^= 1; /* Flip between 0 and 1 */
+#endif
+    
   }while(finished != 1);
 
   /********** WAIT FOR OUTPUT TO FINISH ***********/
 
+#ifndef SINGLE_THREAD
   //printf("Processing finished, waiting for output to finish\n");
   pthread_mutex_lock(&output_ready_mutex);
   while(output_ready == cycle) {
@@ -733,6 +746,7 @@ int main(int argc, char **argv)
 
   /* Wait for i/o to finish */
   pthread_join(output_thread, &retval);
+#endif
 
   /* Clean up */
   read_finish();

@@ -4,7 +4,7 @@
 #include <stdio.h>
 
 /* Switch off multi-threading */
-//#define SINGLE_THREAD
+#define SINGLE_THREAD
 
 /* Define name of input file */
 //#define DEFAULT_INPUT_NAME "../idl_code/14396/ma14396_comhalf000%04d.bmp"

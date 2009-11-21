@@ -11,7 +11,7 @@
 
 int read_png(char *filename, TRawFrame *frame)
 {
-  char header[8];
+  unsigned char header[8];
   FILE *fp;
   png_structp png_ptr;
   png_infop info_ptr;

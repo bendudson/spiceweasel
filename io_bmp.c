@@ -82,7 +82,7 @@ int read_bmp(char *filename, TRawFrame *frame)
     /* Allocate memory */
     frame->data = (unsigned char**) malloc(sizeof(char*)*bmih.biHeight);
     for(i=0;i!=bmih.biHeight;i++)
-      frame->data[i] = (char*) malloc(n*sizeof(char)*bmih.biWidth);
+      frame->data[i] = (unsigned char*) malloc(n*sizeof(unsigned char)*bmih.biWidth);
     frame->width = bmih.biWidth;
     frame->height = bmih.biHeight;
     frame->allocated =  1;
