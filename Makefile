@@ -53,7 +53,7 @@ am_spiceweasel_OBJECTS = spiceweasel.$(OBJEXT) io_png.$(OBJEXT) \
 	io_ipx.$(OBJEXT) process_script.$(OBJEXT) \
 	parse_nextline.$(OBJEXT) run_script.$(OBJEXT)
 spiceweasel_OBJECTS = $(am_spiceweasel_OBJECTS)
-spiceweasel_DEPENDENCIES =
+spiceweasel_LDADD = $(LDADD)
 DEFAULT_INCLUDES = -I.
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__depfiles_maybe = depfiles
@@ -84,15 +84,18 @@ AUTOMAKE = ${SHELL} /home/ben/codes/spiceweasel/missing --run automake-1.10
 AWK = gawk
 CC = gcc
 CCDEPMODE = depmode=gcc3
-CFLAGS = -g -O2
+CFLAGS = -g -O2 -DSINGLE_THREAD
+CPP = gcc -E
 CPPFLAGS = 
 CYGPATH_W = echo
-DEFS = -DPACKAGE_NAME=\"spiceweasel\" -DPACKAGE_TARNAME=\"spiceweasel\" -DPACKAGE_VERSION=\"1.1\" -DPACKAGE_STRING=\"spiceweasel\ 1.1\" -DPACKAGE_BUGREPORT=\"bd512@york.ac.uk\" -DPACKAGE=\"spiceweasel\" -DVERSION=\"1.1\"
+DEFS = -DPACKAGE_NAME=\"spiceweasel\" -DPACKAGE_TARNAME=\"spiceweasel\" -DPACKAGE_VERSION=\"1.1\" -DPACKAGE_STRING=\"spiceweasel\ 1.1\" -DPACKAGE_BUGREPORT=\"bd512@york.ac.uk\" -DPACKAGE=\"spiceweasel\" -DVERSION=\"1.1\" -DHAVE_LIBPNG=1 -DHAVE_LIBOPENJPEG=1 -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_PTHREAD_H=1 -DHAVE_TIME_H=1 -DHAVE_OPENJPEG_H=1 -DHAVE_PNG_H=1
 DEPDIR = .deps
 ECHO_C = 
 ECHO_N = -n
 ECHO_T = 
+EGREP = /bin/grep -E
 EXEEXT = 
+GREP = /bin/grep
 INSTALL = /usr/bin/install -c
 INSTALL_DATA = ${INSTALL} -m 644
 INSTALL_PROGRAM = ${INSTALL}
@@ -100,7 +103,7 @@ INSTALL_SCRIPT = ${INSTALL}
 INSTALL_STRIP_PROGRAM = $(install_sh) -c -s
 LDFLAGS = 
 LIBOBJS = 
-LIBS = 
+LIBS = -lopenjpeg -lpng 
 LTLIBOBJS = 
 MAKEINFO = ${SHELL} /home/ben/codes/spiceweasel/missing --run makeinfo
 MKDIR_P = /bin/mkdir -p
@@ -158,7 +161,6 @@ target_alias =
 top_builddir = .
 top_srcdir = .
 spiceweasel_SOURCES = spiceweasel.c io_png.c io_bmp.c process_frames.c read_main.c io_ipx.c process_script.c parse_nextline.c run_script.c
-spiceweasel_LDADD = @EXTRA_LIBS@
 all: all-am
 
 .SUFFIXES:
