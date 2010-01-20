@@ -3,6 +3,10 @@
 
 #include <stdio.h>
 
+#ifndef VERSION
+#define VERSION "1.0"
+#endif
+
 /* Switch off multi-threading */
 #define SINGLE_THREAD
 

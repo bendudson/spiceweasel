@@ -1,0 +1,7 @@
+
+Installing spiceweasel should be as simple as
+
+./configure
+make
+make install
+

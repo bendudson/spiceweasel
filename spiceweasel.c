@@ -537,6 +537,7 @@ int main(int argc, char **argv)
   /******** PRINT INTRO PUFF *********/
 
   printf("\n   Spice-Weasel photron video enhancement\n");
+  printf("            Version %s\n", VERSION);
   printf("Knocking MAST videos up a notch since april 2006\n");
   printf("      Developed by B.Dudson and A.Meakins\n\n");
 
