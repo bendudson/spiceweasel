@@ -1,0 +1,36 @@
+.SH NAME
+spiceweasel \- Fast scriptable image processing code
+.SH SYNOPSIS
+.B spiceweasel 
+startframe endframe buffer-size
+.B [-i
+input-file
+.B ] [-o
+output-file
+.B ] [-p
+processing-script
+.B ]
+.SH DESCRIPTION
+Processing is controlled by a scripting language which can be used
+to do many different image processing tasks. The commands include
+
+- Amplify by a constant factor
+- Normalize to maximize contrast
+- Gamma correct to enhance dim features
+- despeckle using median filter
+- despeckle using edge preserving kuwahara filter
+- Sharpen using a simple edge enhancement algorithm
+- Sharpen using unsharp masking method
+
+The code has a sliding window buffer, from which a background frame
+can be calculated. Currently the background calculations are:
+
+- Pixelwise minimum over the buffer
+- Pixelwise average
+
+This background can then be subtracted from the original which results in
+an enhancement of transient events like filaments.
+
+See the manual in doc/ directory for how to write processing scripts
+and other info.
+
