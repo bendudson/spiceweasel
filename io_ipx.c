@@ -8,7 +8,12 @@
 
 #include "io_ipx.h"
 #include "spiceweasel.h"
+
+#ifdef HAVE_OPENJPEG_OPENJPEG_H
+#include "openjpeg/openjpeg.h"
+#else
 #include "openjpeg.h"
+#endif
 
 /*********************** IPX HEADER ROUTINES *************************/
 

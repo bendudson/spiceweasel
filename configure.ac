@@ -9,9 +9,7 @@ AM_INIT_AUTOMAKE([1.9 foreign])
 ######### Configure options
 
 AC_ARG_ENABLE(threads,
-	AS_HELP_STRING([--enable-threads],[Enable multi-threading support],
-,
-[enable_threads="no"]))
+	AS_HELP_STRING([--enable-threads],[Enable multi-threading support]))
 
 ######### Programs
 
@@ -50,7 +48,20 @@ AC_CHECK_LIB([openjpeg], [opj_decode], ,[
 
 ######### Headers
 
-AC_CHECK_HEADERS([pthread.h time.h openjpeg.h png.h])
+AC_CHECK_HEADERS([pthread.h time.h png.h], , [
+   # Not found
+   echo "ERROR: Required header file not found."
+   exit
+])
+
+AC_CHECK_HEADER([openjpeg.h], , [
+   # Not in standard header include directories
+   
+   AC_CHECK_HEADERS([openjpeg/openjpeg.h], , [
+      echo "ERROR: Couldn't find openjpeg.h"
+      exit
+   ])
+])
 
 ######### Output
 
