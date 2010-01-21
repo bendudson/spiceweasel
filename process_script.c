@@ -101,12 +101,47 @@ int process_script(char *exe_cmd, char *file)
     strcpy(name, file);
   }
 
+  /***********************************/
+
   /* Look in local directory */
   if((fd = fopen(name, "rt")) != (FILE*) NULL) {
     printf("Using processing script ./%s\n", name);
+    
   }else {
     printf("Failed to read '%s'\n", name);
-    
+  }
+
+  if(fd == (FILE*) NULL) {
+    /* Try adding .sps to the end */
+    sprintf(buffer, "%s.sps", name);
+    if((fd = fopen(buffer, "rt")) != (FILE*) NULL) {
+      printf("Using processing script %s\n", buffer);
+    }else {
+      printf("Failed to read '%s'\n", buffer);
+    }
+  }
+  
+  if(fd == (FILE*) NULL) {
+    /* Check in the default directory */
+    sprintf(buffer, "%s/%s", DEFAULT_SPS_PATH, name);
+    if((fd = fopen(buffer, "rt")) != (FILE*) NULL) {
+      printf("Using processing script %s\n", buffer);
+    }else {
+      printf("Failed to read '%s'\n", buffer);
+    }
+  }
+
+  if(fd == (FILE*) NULL) {
+    /* Check in the default directory with .sps */
+    sprintf(buffer, "%s/%s.sps", DEFAULT_SPS_PATH, name);
+    if((fd = fopen(buffer, "rt")) != (FILE*) NULL) {
+      printf("Using processing script %s\n", buffer);
+    }else {
+      printf("Failed to read '%s'\n", buffer);
+    }
+  }      
+  
+  if(fd == (FILE*) NULL) {
     /* Check for an environment variable */
     if((str = getenv(SCRIPT_ENV)) != (char*) NULL) {
       /* Environment variable set */
@@ -116,6 +151,13 @@ int process_script(char *exe_cmd, char *file)
 	printf("Using processing script %s\n", buffer);
       }else {
 	printf("Failed to read '%s'\n", buffer);
+	
+	sprintf(buffer, "%s/%s.sps", str, name);
+	if((fd = fopen(buffer, "rt")) != (FILE*) NULL) {
+	  printf("Using processing script %s\n", buffer);
+	}else {
+	  printf("Failed to read '%s'\n", buffer);
+	}
       }
     }
   }

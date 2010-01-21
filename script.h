@@ -6,6 +6,12 @@
 
 /* Set the default script name */
 #define DEFAULT_SCRIPT "default.sps"
+
+/* Default search directory for scripts */
+#ifndef DEFAULT_SPS_PATH
+#define DEFAULT_SPS_PATH "/usr/local/share/spiceweasel/"
+#endif
+
 /* The environment variable containing a path to scripts */
 #define SCRIPT_ENV    "SPS_PATH"
 

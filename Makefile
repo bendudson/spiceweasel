@@ -14,7 +14,6 @@
 
 
 
-# Spiceweasel automake input. Process with automake to produce Makefile.in
 
 
 pkgdatadir = $(datadir)/spiceweasel
@@ -45,7 +44,7 @@ am__CONFIG_DISTCLEAN_FILES = config.status config.cache config.log \
  configure.lineno config.status.lineno
 mkinstalldirs = $(install_sh) -d
 CONFIG_CLEAN_FILES =
-am__installdirs = "$(DESTDIR)$(bindir)"
+am__installdirs = "$(DESTDIR)$(bindir)" "$(DESTDIR)$(spsdir)"
 binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
 PROGRAMS = $(bin_PROGRAMS)
 am_spiceweasel_OBJECTS = spiceweasel.$(OBJEXT) io_png.$(OBJEXT) \
@@ -63,6 +62,14 @@ CCLD = $(CC)
 LINK = $(CCLD) $(AM_CFLAGS) $(CFLAGS) $(AM_LDFLAGS) $(LDFLAGS) -o $@
 SOURCES = $(spiceweasel_SOURCES)
 DIST_SOURCES = $(spiceweasel_SOURCES)
+am__vpath_adj_setup = srcdirstrip=`echo "$(srcdir)" | sed 's|.|.|g'`;
+am__vpath_adj = case $$p in \
+    $(srcdir)/*) f=`echo "$$p" | sed "s|^$$srcdirstrip/||"`;; \
+    *) f=$$p;; \
+  esac;
+am__strip_dir = `echo $$p | sed -e 's|^.*/||'`;
+spsDATA_INSTALL = $(INSTALL_DATA)
+DATA = $(sps_DATA)
 ETAGS = etags
 CTAGS = ctags
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -76,11 +83,11 @@ DIST_ARCHIVES = $(distdir).tar.gz
 GZIP_ENV = --best
 distuninstallcheck_listfiles = find . -type f -print
 distcleancheck_listfiles = find . -type f -print
-ACLOCAL = ${SHELL} /hwdisks/home/bd512/MAST/spiceweasel/missing --run aclocal-1.10
-AMTAR = ${SHELL} /hwdisks/home/bd512/MAST/spiceweasel/missing --run tar
-AUTOCONF = ${SHELL} /hwdisks/home/bd512/MAST/spiceweasel/missing --run autoconf
-AUTOHEADER = ${SHELL} /hwdisks/home/bd512/MAST/spiceweasel/missing --run autoheader
-AUTOMAKE = ${SHELL} /hwdisks/home/bd512/MAST/spiceweasel/missing --run automake-1.10
+ACLOCAL = ${SHELL} /home/ben/codes/spiceweasel/missing --run aclocal-1.10
+AMTAR = ${SHELL} /home/ben/codes/spiceweasel/missing --run tar
+AUTOCONF = ${SHELL} /home/ben/codes/spiceweasel/missing --run autoconf
+AUTOHEADER = ${SHELL} /home/ben/codes/spiceweasel/missing --run autoheader
+AUTOMAKE = ${SHELL} /home/ben/codes/spiceweasel/missing --run automake-1.10
 AWK = gawk
 CC = gcc
 CCDEPMODE = depmode=gcc3
@@ -88,14 +95,14 @@ CFLAGS = -g -O2 -DSINGLE_THREAD
 CPP = gcc -E
 CPPFLAGS = 
 CYGPATH_W = echo
-DEFS = -DPACKAGE_NAME=\"spiceweasel\" -DPACKAGE_TARNAME=\"spiceweasel\" -DPACKAGE_VERSION=\"1.1\" -DPACKAGE_STRING=\"spiceweasel\ 1.1\" -DPACKAGE_BUGREPORT=\"bd512@york.ac.uk\" -DPACKAGE=\"spiceweasel\" -DVERSION=\"1.1\" -DHAVE_LIBPNG=1 -DHAVE_LIBOPENJPEG=1 -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_PTHREAD_H=1 -DHAVE_TIME_H=1 -DHAVE_PNG_H=1 -DHAVE_OPENJPEG_OPENJPEG_H=1
+DEFS = -DPACKAGE_NAME=\"spiceweasel\" -DPACKAGE_TARNAME=\"spiceweasel\" -DPACKAGE_VERSION=\"1.1\" -DPACKAGE_STRING=\"spiceweasel\ 1.1\" -DPACKAGE_BUGREPORT=\"bd512@york.ac.uk\" -DPACKAGE=\"spiceweasel\" -DVERSION=\"1.1\" -DHAVE_LIBPNG=1 -DHAVE_LIBOPENJPEG=1 -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DHAVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_PTHREAD_H=1 -DHAVE_TIME_H=1 -DHAVE_PNG_H=1
 DEPDIR = .deps
 ECHO_C = 
 ECHO_N = -n
 ECHO_T = 
-EGREP = /usr/bin/grep -E
+EGREP = /bin/grep -E
 EXEEXT = 
-GREP = /usr/bin/grep
+GREP = /bin/grep
 INSTALL = /usr/bin/install -c
 INSTALL_DATA = ${INSTALL} -m 644
 INSTALL_PROGRAM = ${INSTALL}
@@ -105,7 +112,7 @@ LDFLAGS =
 LIBOBJS = 
 LIBS = -lopenjpeg -lpng 
 LTLIBOBJS = 
-MAKEINFO = ${SHELL} /hwdisks/home/bd512/MAST/spiceweasel/missing --run makeinfo
+MAKEINFO = ${SHELL} /home/ben/codes/spiceweasel/missing --run makeinfo
 MKDIR_P = /bin/mkdir -p
 OBJEXT = o
 PACKAGE = spiceweasel
@@ -119,10 +126,10 @@ SET_MAKE =
 SHELL = /bin/sh
 STRIP = 
 VERSION = 1.1
-abs_builddir = /hwdisks/home/bd512/MAST/spiceweasel
-abs_srcdir = /hwdisks/home/bd512/MAST/spiceweasel
-abs_top_builddir = /hwdisks/home/bd512/MAST/spiceweasel
-abs_top_srcdir = /hwdisks/home/bd512/MAST/spiceweasel
+abs_builddir = /home/ben/codes/spiceweasel
+abs_srcdir = /home/ben/codes/spiceweasel
+abs_top_builddir = /home/ben/codes/spiceweasel
+abs_top_srcdir = /home/ben/codes/spiceweasel
 ac_ct_CC = gcc
 am__include = include
 am__leading_dot = .
@@ -141,7 +148,7 @@ host_alias =
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = $(SHELL) /hwdisks/home/bd512/MAST/spiceweasel/install-sh
+install_sh = $(SHELL) /home/ben/codes/spiceweasel/install-sh
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale
@@ -150,7 +157,7 @@ mandir = ${datarootdir}/man
 mkdir_p = /bin/mkdir -p
 oldincludedir = /usr/include
 pdfdir = ${docdir}
-prefix = /usr/local
+prefix = /home/ben/local/
 program_transform_name = s,x,x,
 psdir = ${docdir}
 sbindir = ${exec_prefix}/sbin
@@ -158,10 +165,12 @@ sharedstatedir = ${prefix}/com
 srcdir = .
 sysconfdir = ${prefix}/etc
 target_alias = 
-top_build_prefix = 
 top_builddir = .
 top_srcdir = .
 spiceweasel_SOURCES = spiceweasel.c io_png.c io_bmp.c process_frames.c read_main.c io_ipx.c process_script.c parse_nextline.c run_script.c
+spsdir = $(datarootdir)/spiceweasel
+sps_DATA = scripts/default.sps scripts/example.sps scripts/pass.sps scripts/usharp.sps
+AM_CPPFLAGS = -DDEFAULT_SPS_PATH=\"$(spsdir)\"
 all: all-am
 
 .SUFFIXES:
@@ -255,6 +264,23 @@ include ./$(DEPDIR)/spiceweasel.Po
 #	source='$<' object='$@' libtool=no \
 #	DEPDIR=$(DEPDIR) $(CCDEPMODE) $(depcomp) \
 #	$(COMPILE) -c `$(CYGPATH_W) '$<'`
+install-spsDATA: $(sps_DATA)
+	@$(NORMAL_INSTALL)
+	test -z "$(spsdir)" || $(MKDIR_P) "$(DESTDIR)$(spsdir)"
+	@list='$(sps_DATA)'; for p in $$list; do \
+	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
+	  f=$(am__strip_dir) \
+	  echo " $(spsDATA_INSTALL) '$$d$$p' '$(DESTDIR)$(spsdir)/$$f'"; \
+	  $(spsDATA_INSTALL) "$$d$$p" "$(DESTDIR)$(spsdir)/$$f"; \
+	done
+
+uninstall-spsDATA:
+	@$(NORMAL_UNINSTALL)
+	@list='$(sps_DATA)'; for p in $$list; do \
+	  f=$(am__strip_dir) \
+	  echo " rm -f '$(DESTDIR)$(spsdir)/$$f'"; \
+	  rm -f "$(DESTDIR)$(spsdir)/$$f"; \
+	done
 
 ID: $(HEADERS) $(SOURCES) $(LISP) $(TAGS_FILES)
 	list='$(SOURCES) $(HEADERS) $(LISP) $(TAGS_FILES)'; \
@@ -436,9 +462,9 @@ distcleancheck: distclean
 	       exit 1; } >&2
 check-am: all-am
 check: check-am
-all-am: Makefile $(PROGRAMS)
+all-am: Makefile $(PROGRAMS) $(DATA)
 installdirs:
-	for dir in "$(DESTDIR)$(bindir)"; do \
+	for dir in "$(DESTDIR)$(bindir)" "$(DESTDIR)$(spsdir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -486,7 +512,7 @@ info: info-am
 
 info-am:
 
-install-data-am:
+install-data-am: install-spsDATA
 
 install-dvi: install-dvi-am
 
@@ -523,7 +549,7 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-binPROGRAMS
+uninstall-am: uninstall-binPROGRAMS uninstall-spsDATA
 
 .MAKE: install-am install-strip
 
@@ -536,11 +562,12 @@ uninstall-am: uninstall-binPROGRAMS
 	install-data install-data-am install-dvi install-dvi-am \
 	install-exec install-exec-am install-html install-html-am \
 	install-info install-info-am install-man install-pdf \
-	install-pdf-am install-ps install-ps-am install-strip \
-	installcheck installcheck-am installdirs maintainer-clean \
-	maintainer-clean-generic mostlyclean mostlyclean-compile \
-	mostlyclean-generic pdf pdf-am ps ps-am tags uninstall \
-	uninstall-am uninstall-binPROGRAMS
+	install-pdf-am install-ps install-ps-am install-spsDATA \
+	install-strip installcheck installcheck-am installdirs \
+	maintainer-clean maintainer-clean-generic mostlyclean \
+	mostlyclean-compile mostlyclean-generic pdf pdf-am ps ps-am \
+	tags uninstall uninstall-am uninstall-binPROGRAMS \
+	uninstall-spsDATA
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
