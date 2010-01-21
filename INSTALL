@@ -5,3 +5,13 @@ Installing spiceweasel should be as simple as
 make
 make install
 
+If you get an error whilst configuring of the form:
+
+configure: error: cannot find install-sh or install.sh in "." "./.." "./../.."
+
+Then you should run:
+
+$ aclocal
+$ automake --add-missing
+
+before trying again
