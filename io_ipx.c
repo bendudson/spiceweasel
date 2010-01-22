@@ -149,12 +149,14 @@ int IPX_read_frame(int fnr, TFrame *frame, IPX_status *status)
 {
   int offset, size;
   int i, j, p;
-  unsigned char *data;
+  static unsigned int data_max = 0;
+  static unsigned char *data;
   float factor;
 
   /* JPEG 2000 variables */
-  opj_dparameters_t parameters;	/* decompression parameters */
-  opj_dinfo_t* dinfo = NULL;	/* handle to a decompressor */
+  static int jp2_init = 1;
+  static opj_dparameters_t parameters;	/* decompression parameters */
+  static opj_dinfo_t* dinfo = NULL;	/* handle to a decompressor */
   opj_cio_t *cio = NULL;
   opj_image_t *image = NULL;
 
@@ -166,27 +168,37 @@ int IPX_read_frame(int fnr, TFrame *frame, IPX_status *status)
   if(fseek(status->fd, offset, SEEK_SET)) {
     return(2);
   }
+
   size = status->frames[fnr].size - IPX_UINT - IPX_DOUBLE; //sizeof(uint) - sizeof(double);
   
   /* Allocate memory */
-  data = (unsigned char*) malloc((size_t) size);
+  if(data_max < size) {
+    if(data_max == 0) {
+      data = (unsigned char*) malloc(size);
+    }else {
+      data = (unsigned char*) realloc(data, size);
+    }
+    data_max = size;
+  }
   
   /* Read data */
   if(fread(data, size, 1, status->fd) != 1) {
-    free(data);
     return(2);
   }
   
   /* Decode JP2 image */
 
-  /* set decoding parameters to default values */
-  opj_set_default_decoder_parameters(&parameters);
+  if(jp2_init) {
+    jp2_init = 0;
+    /* set decoding parameters to default values */
+    opj_set_default_decoder_parameters(&parameters);
 
-  /* get a decoder handle */
-  dinfo = opj_create_decompress(CODEC_JP2);
-
-  /* setup the decoder decoding parameters */
-  opj_setup_decoder(dinfo, &parameters);
+    /* get a decoder handle */
+    dinfo = opj_create_decompress(CODEC_JP2);
+    
+    /* setup the decoder decoding parameters */
+    opj_setup_decoder(dinfo, &parameters);
+  }
 
   /* open a byte stream */
   cio = opj_cio_open((opj_common_ptr)dinfo, data, size);
@@ -194,15 +206,13 @@ int IPX_read_frame(int fnr, TFrame *frame, IPX_status *status)
   /* decode the stream and fill the image structure */
   image = opj_decode(dinfo, cio);
   if(!image) {
-    opj_destroy_decompress(dinfo);
     opj_cio_close(cio);
-    free(data);
     return(3);
   }
   
   /* close the byte stream */
   opj_cio_close(cio);
-  
+
   /* Copy image into TRawFrame structure */
 
   /* Check frame data is allocated. If not, allocate it */
@@ -226,15 +236,9 @@ int IPX_read_frame(int fnr, TFrame *frame, IPX_status *status)
     /* This is the last frame */
     frame->last = 1;
   }
-
-  /* free remaining structures */
-  if(dinfo) {
-    opj_destroy_decompress(dinfo);
-  }
+  
   /* free image data structure */
   opj_image_destroy(image);
-
-  free(data);
 
   frame->time = status->frames[fnr].time;
 
@@ -314,15 +318,18 @@ int IPX_write_open(char *filename, int precision, IPX_status *status)
 /* Add a frame to the end of an IPX file */
 int IPX_write_frame(TFrame *frame, IPX_status *status)
 {
-  opj_cparameters_t parameters;	/* compression parameters */
   opj_image_t *image = NULL;
-  opj_cinfo_t* cinfo; 
   uint codestream_length, datasize;
   opj_cio_t *cio = NULL;
   opj_image_cmptparm_t cmptparm;
-  opj_event_mgr_t event_mgr;		/* event manager */
+  
   int i, j, p;
   float factor;
+
+  static int jp2_init = 1;
+  static opj_event_mgr_t event_mgr;		/* event manager */
+  static opj_cparameters_t parameters;	/* compression parameters */
+  static opj_cinfo_t* cinfo; 
 
   if((status->header.height == 0) || (status->header.width == 0)) {
     /* Width and height not set yet */
@@ -336,15 +343,21 @@ int IPX_write_frame(TFrame *frame, IPX_status *status)
     return(IO_ERROR_SIZE);
   }
 
-  /* Setup callbacks */
-  memset(&event_mgr, 0, sizeof(opj_event_mgr_t));
-  event_mgr.error_handler = error_callback;
-  event_mgr.warning_handler = warning_callback;
-  event_mgr.info_handler = info_callback;
-
-  /* Set default compression parameters */
-  opj_set_default_encoder_parameters(&parameters);
-
+  if(jp2_init) {
+    jp2_init = 0;
+    /* Setup callbacks */
+    memset(&event_mgr, 0, sizeof(opj_event_mgr_t));
+    event_mgr.error_handler = error_callback;
+    event_mgr.warning_handler = warning_callback;
+    event_mgr.info_handler = info_callback;
+    
+    /* Set default compression parameters */
+    opj_set_default_encoder_parameters(&parameters);
+    
+    /* Get a compressor handle */
+    cinfo = opj_create_compress(CODEC_JP2);
+  }
+  
   /* Create an image structure */
   memset(&cmptparm, 0, sizeof(opj_image_cmptparm_t));
 
@@ -384,13 +397,10 @@ int IPX_write_frame(TFrame *frame, IPX_status *status)
 
   /* if no rate entered, lossless by default */
   if(parameters.tcp_numlayers == 0) {
-    parameters.tcp_rates[0] = 0;	/* MOD antonin : losslessbug */
+    parameters.tcp_rates[0] = 0;
     parameters.tcp_numlayers++;
     parameters.cp_disto_alloc = 1;
   }
-
-  /* Get a compressor handle */
-  cinfo = opj_create_compress(CODEC_JP2);
 
   /* catch events using our callbacks and give a local context */
   //opj_set_event_mgr((opj_common_ptr)cinfo, &event_mgr, stderr);	
@@ -436,7 +446,6 @@ int IPX_write_frame(TFrame *frame, IPX_status *status)
   
   /* Free memory */
   opj_cio_close(cio);
-  opj_destroy_compress(cinfo);
   opj_image_destroy(image);
   
   return(0);
