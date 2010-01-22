@@ -1,36 +1,49 @@
+.TH spiceweasel 1 "January 21, 2010" "version 1.1" "USER COMMANDS"
 .SH NAME
 spiceweasel \- Fast scriptable image processing code
 .SH SYNOPSIS
 .B spiceweasel 
 startframe endframe buffer-size
-.B [-i
+.B [\-i
 input-file
-.B ] [-o
+.B ] [\-o
 output-file
-.B ] [-p
+.B ] [\-p
 processing-script
 .B ]
 .SH DESCRIPTION
 Processing is controlled by a scripting language which can be used
 to do many different image processing tasks. The commands include
 
-- Amplify by a constant factor
-- Normalize to maximize contrast
-- Gamma correct to enhance dim features
-- despeckle using median filter
-- despeckle using edge preserving kuwahara filter
-- Sharpen using a simple edge enhancement algorithm
-- Sharpen using unsharp masking method
+Amplify by a constant factor
+
+Normalize to maximize contrast
+
+Gamma correct to enhance dim features
+
+despeckle using median filter
+
+despeckle using edge preserving kuwahara filter
+
+Sharpen using a simple edge enhancement algorithm
+
+Sharpen using unsharp masking method
 
 The code has a sliding window buffer, from which a background frame
 can be calculated. Currently the background calculations are:
 
-- Pixelwise minimum over the buffer
-- Pixelwise average
+Pixelwise minimum over the buffer
+
+Pixelwise average
 
 This background can then be subtracted from the original which results in
 an enhancement of transient events like filaments.
 
 See the manual in doc/ directory for how to write processing scripts
 and other info.
+
+.SH OPTIONS
+.TP
+\-i
+Set the input file pattern. This can be either an IPX video file, or a set of PNG or BMP files. If a set of files is specified, the frame number must appear in the name as a printf
 
