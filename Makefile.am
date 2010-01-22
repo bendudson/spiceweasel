@@ -11,3 +11,7 @@ spiceweasel_SOURCES = spiceweasel.c io_png.c io_bmp.c process_frames.c read_main
 spsdir = $(datarootdir)/@PACKAGE@
 sps_DATA = scripts/default.sps scripts/example.sps scripts/pass.sps scripts/usharp.sps
 AM_CPPFLAGS = -DDEFAULT_SPS_PATH=\"$(spsdir)\"
+
+## Spiceweasel man page
+
+man_MANS = spiceweasel.1

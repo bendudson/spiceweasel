@@ -45,5 +45,11 @@ and other info.
 .SH OPTIONS
 .TP
 \-i
-Set the input file pattern. This can be either an IPX video file, or a set of PNG or BMP files. If a set of files is specified, the frame number must appear in the name as a printf
+Set the input file pattern. This can be either an IPX video file, or a set of PNG or BMP files. If a set of files is specified, the frame number must appear in the name as a printf formatting string such as `input%04d.png'
+.TP
+\-o
+Output file pattern. As with input, this can be an IPX file, or a printf formatting string specifying a set of BMP or PNG files
+.TP
+\-p
+Specify a processing script to use, with or without the `.sps' extension. This searches first the local directory, then the default directory (/usr/local/share/spiceweasel/), then the directory specified by the SPS_PATH environment variable
 

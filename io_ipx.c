@@ -21,6 +21,7 @@
 #define IPX_SHORT 2
 #define IPX_UINT 4
 #define IPX_FLOAT 4
+#define IPX_DOUBLE 8
 
 /* Need to read in element-by-element due to byte packing */
 int ipx_read_header(FILE *fd, IPX_header *header)
@@ -135,8 +136,8 @@ int IPX_read_open(char *filename, IPX_status *status)
       return(2);
     }
     status->frames[i].offset = offset;
-    fread(&(status->frames[i].size), sizeof(uint), 1, status->fd);
-    fread(&(status->frames[i].time), sizeof(double), 1, status->fd);
+    fread(&(status->frames[i].size), IPX_UINT, 1, status->fd);
+    fread(&(status->frames[i].time), IPX_DOUBLE, 1, status->fd);
     offset += status->frames[i].size;
   }
   /* Finished! */
@@ -161,11 +162,11 @@ int IPX_read_frame(int fnr, TFrame *frame, IPX_status *status)
     return(1);
   }
   
-  offset = status->frames[fnr].offset + sizeof(uint) + sizeof(double);
+  offset = status->frames[fnr].offset + IPX_UINT + IPX_DOUBLE; //sizeof(uint) + sizeof(double);
   if(fseek(status->fd, offset, SEEK_SET)) {
     return(2);
   }
-  size = status->frames[fnr].size - sizeof(uint) - sizeof(double);
+  size = status->frames[fnr].size - IPX_UINT - IPX_DOUBLE; //sizeof(uint) - sizeof(double);
   
   /* Allocate memory */
   data = (unsigned char*) malloc((size_t) size);
@@ -412,7 +413,7 @@ int IPX_write_frame(TFrame *frame, IPX_status *status)
   /* Length of JP2 code stream */
   codestream_length = cio_tell(cio);
   /* Length of header + JP2 data */
-  datasize = codestream_length + sizeof(uint) + sizeof(double);
+  datasize = codestream_length + IPX_UINT + IPX_DOUBLE; //sizeof(uint) + sizeof(double);
 
   /*
   printf("Writing frame %d at position %ld, size %d\n", 
@@ -422,8 +423,8 @@ int IPX_write_frame(TFrame *frame, IPX_status *status)
   /* Write frame header */
   //printf("Writing header: %ld, %d ->", ftell(status->fd), sizeof(uint)+sizeof(double));
 
-  fwrite(&datasize, sizeof(uint), 1, status->fd);
-  fwrite(&(frame->time), sizeof(double), 1, status->fd);
+  fwrite(&datasize, IPX_UINT, 1, status->fd);
+  fwrite(&(frame->time), IPX_DOUBLE, 1, status->fd);
   
   //printf(" %ld\n", ftell(status->fd));
 
