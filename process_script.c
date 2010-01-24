@@ -338,9 +338,10 @@ int parse_script(FILE *script)
       //printf("Target %s has %d inputs:", buffer, p);
       /* Allocate array of strings */
       curtarget->nargs = p;
-      curtarget->args = (char**) malloc(sizeof(char*)*p);
+      curtarget->args = (char**) malloc(sizeof(char*)*(p+1));
       curtarget->args[0] = (char*) malloc(q+1);
-      strcpy(curtarget->args[0], str);
+      strncpy(curtarget->args[0], str, q+1);
+      curtarget->args[0][q] = '\0';
       p = 1;
       for(i=0;i<q;i++) {
 	if(str[i] == ',') {
@@ -424,7 +425,7 @@ int parse_script(FILE *script)
       //printf("%d args: ", nprocargs);
       if(nprocargs > 0) {
 	/* Separate into separate strings */
-	procarg = (char**) malloc(sizeof(char*)*nprocargs);
+	procarg = (char**) malloc(sizeof(char*)*(nprocargs+1));
 	procarg[0] = (char*) malloc(strlen(str)+1);
 	strcpy(procarg[0], str);
 	p = 1;
