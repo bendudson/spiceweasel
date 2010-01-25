@@ -371,6 +371,9 @@ int IPX_write_frame(TFrame *frame, IPX_status *status)
     
     /* Get a compressor handle */
     cinfo = opj_create_compress(CODEC_JP2);
+
+    /* catch events using our callbacks and give a local context */
+    opj_set_event_mgr((opj_common_ptr)cinfo, &event_mgr, stderr);	
   }
   
   /* Create an image structure */
@@ -416,9 +419,6 @@ int IPX_write_frame(TFrame *frame, IPX_status *status)
     parameters.tcp_numlayers++;
     parameters.cp_disto_alloc = 1;
   }
-
-  /* catch events using our callbacks and give a local context */
-  //opj_set_event_mgr((opj_common_ptr)cinfo, &event_mgr, stderr);	
 
   /* setup the encoder parameters using the current image and using user parameters */
   opj_setup_encoder(cinfo, &parameters, image);
