@@ -992,6 +992,7 @@ int add_arg(TProcess *process)
     /* Free the old array */
     free(tmp);
   }
+  memset(&(process->args[process->nargs]), 0, sizeof(TProcArg));
   process->nargs++;
   return(process->nargs-1);
 }

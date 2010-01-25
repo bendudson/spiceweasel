@@ -17,6 +17,11 @@
 
 /*********************** IPX HEADER ROUTINES *************************/
 
+/* Callback functions */
+void error_callback(const char *msg, void *client_data);
+void warning_callback(const char *msg, void *client_data);
+void info_callback(const char *msg, void *client_data);
+
 /* Number of bytes in header elements */
 #define IPX_SHORT 2
 #define IPX_UINT 4
@@ -157,6 +162,7 @@ int IPX_read_frame(int fnr, TFrame *frame, IPX_status *status)
   static int jp2_init = 1;
   static opj_dparameters_t parameters;	/* decompression parameters */
   static opj_dinfo_t* dinfo = NULL;	/* handle to a decompressor */
+  static opj_event_mgr_t event_mgr;		/* event manager */
   opj_cio_t *cio = NULL;
   opj_image_t *image = NULL;
 
@@ -196,6 +202,15 @@ int IPX_read_frame(int fnr, TFrame *frame, IPX_status *status)
     /* get a decoder handle */
     dinfo = opj_create_decompress(CODEC_JP2);
     
+    /* Setup callbacks */
+    memset(&event_mgr, 0, sizeof(opj_event_mgr_t));
+    event_mgr.error_handler = error_callback;
+    event_mgr.warning_handler = warning_callback;
+    event_mgr.info_handler = info_callback;
+    
+    /* catch events using our callbacks and give a local context */
+    opj_set_event_mgr((opj_common_ptr)dinfo, &event_mgr, stderr);
+
     /* setup the decoder decoding parameters */
     opj_setup_decoder(dinfo, &parameters);
   }
@@ -288,7 +303,7 @@ sample debug callback expecting a FILE* client object
 */
 void info_callback(const char *msg, void *client_data) {
 	FILE *stream = (FILE*)client_data;
-	fprintf(stream, "[INFO] %s", msg);
+	//fprintf(stream, "[INFO] %s", msg);
 }
 
 /* Open an IPX file for writing (overwrite) */
