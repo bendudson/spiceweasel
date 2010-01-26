@@ -22,7 +22,7 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  *
- * Changelog: 
+ * Changelog:
  *
  * October 2006: Initial release by Ben Dudson, UKAEA Fusion/Oxford University
  *
@@ -52,7 +52,7 @@ typedef struct {
   int id;
   int nargs;
   char **args;
-  
+
   int nprocess;
   TProcess **process; /* Processing steps */
 
@@ -65,7 +65,7 @@ typedef struct {
   int calculated;
 }TTarget;
 
-int parse_script(FILE *script); 
+int parse_script(FILE *script);
 int resolve_script();
 void dummy_script(TCommands *cmd);
 
@@ -106,7 +106,7 @@ int process_script(char *exe_cmd, char *file)
   /* Look in local directory */
   if((fd = fopen(name, "rt")) != (FILE*) NULL) {
     printf("Using processing script ./%s\n", name);
-    
+
   }else {
     printf("Failed to read '%s'\n", name);
   }
@@ -120,7 +120,27 @@ int process_script(char *exe_cmd, char *file)
       printf("Failed to read '%s'\n", buffer);
     }
   }
-  
+
+  /* Look in $(pwd)/scripts directory */
+    sprintf(buffer, "%s/%s", "scripts", name);
+    if((fd = fopen(buffer, "rt")) != (FILE*) NULL) {
+//  if((fd = fopen(name, "rt")) != (FILE*) NULL) {
+    printf("Using processing script ./%s\n", buffer);
+
+  }else {
+    printf("Failed to read '%s'\n", name);
+  }
+
+  if(fd == (FILE*) NULL) {
+    /* Try adding .sps to the end */
+    sprintf(buffer, "%s/%s.sps", "scripts", name);
+    if((fd = fopen(buffer, "rt")) != (FILE*) NULL) {
+      printf("Using processing script %s\n", buffer);
+    }else {
+      printf("Failed to read '%s'\n", buffer);
+    }
+  }
+
   if(fd == (FILE*) NULL) {
     /* Check in the default directory */
     sprintf(buffer, "%s/%s", DEFAULT_SPS_PATH, name);
@@ -139,19 +159,19 @@ int process_script(char *exe_cmd, char *file)
     }else {
       printf("Failed to read '%s'\n", buffer);
     }
-  }      
-  
+  }
+
   if(fd == (FILE*) NULL) {
     /* Check for an environment variable */
     if((str = getenv(SCRIPT_ENV)) != (char*) NULL) {
       /* Environment variable set */
       sprintf(buffer, "%s/%s", str, name);
-      
+
       if((fd = fopen(buffer, "rt")) != (FILE*) NULL) {
 	printf("Using processing script %s\n", buffer);
       }else {
 	printf("Failed to read '%s'\n", buffer);
-	
+
 	sprintf(buffer, "%s/%s.sps", str, name);
 	if((fd = fopen(buffer, "rt")) != (FILE*) NULL) {
 	  printf("Using processing script %s\n", buffer);
@@ -161,10 +181,10 @@ int process_script(char *exe_cmd, char *file)
       }
     }
   }
-  
+
   if(fd == (FILE*) NULL) {
     /* Look in the executable directory */
-    
+
     n = strlen(exe_cmd);
 
     /* Find the last '/' in the command string */
@@ -178,7 +198,7 @@ int process_script(char *exe_cmd, char *file)
     }
     if(found) { /* Not the current directory (probably) */
       sprintf(buffer, "%s%s", exe_cmd, name);
-      
+
       if((fd = fopen(buffer, "rt")) != (FILE*) NULL) {
 	printf("Using processing script %s\n", buffer);
       }else {
@@ -191,7 +211,7 @@ int process_script(char *exe_cmd, char *file)
       return(1);
     }
   }
- 
+
   /* Read the script */
   if(parse_script(fd)) {
     return(-1);
@@ -229,10 +249,10 @@ int parse_script(FILE *script)
 
   TProcess *curproc;
   TProcess **tmpproc;
-  
+
   int nprocargs;
   char **procarg;
-  
+
   curtarget = (TTarget*) NULL;
   ntargets = 0;
   next_id = 0;
@@ -259,13 +279,13 @@ int parse_script(FILE *script)
     if(p > 0) {
 
       /* Create a new target structure */
-      
+
       tmptarg = target;
       target = (TTarget**) malloc(sizeof(TTarget*)*(ntargets+1));
       if(ntargets > 0) {
 	for(i=0;i<ntargets;i++)
 	  target[i] = tmptarg[i];
-	
+
 	free(tmptarg);
       }
       target[ntargets] = (TTarget*) malloc(sizeof(TTarget));
@@ -284,7 +304,7 @@ int parse_script(FILE *script)
       curtarget->name = (char*) malloc(q+1);
       strncpy(curtarget->name, buffer, q+1);
       curtarget->name[q] = 0; /* Make sure it's null-terminated */
-      
+
       curtarget->linenr = linenr;
 
       /* Check if name is pre-defined */
@@ -305,7 +325,7 @@ int parse_script(FILE *script)
 	target[0] = target[ntargets-1];
 	target[ntargets-1] = targ;
 
-      }else if( (strcmp(buffer, "MINIMUM") == 0) || 
+      }else if( (strcmp(buffer, "MINIMUM") == 0) ||
 		(strcmp(buffer, "AVERAGE") == 0) ||
 		(strcmp(buffer, "INPUT") == 0) ) {
 	/* These are reserved frame names - cannot have a target called this */
@@ -315,13 +335,13 @@ int parse_script(FILE *script)
 	/* Check if there is already a target called this */
 	for(i=0;i<(ntargets-1);i++) {
 	  if(strcmp(buffer, target[i]->name) == 0) {
-	    printf("Error line %d: Target %s already defined on line %d\n", 
+	    printf("Error line %d: Target %s already defined on line %d\n",
 		   linenr, buffer, target[i]->linenr);
 	    return(1);
 	  }
 	}
       }
-      
+
       /* Get input frames from str */
       q = strip_space(str); /* Strip all spaces. frames separated by commas */
       if(q == 0) {
@@ -370,7 +390,7 @@ int parse_script(FILE *script)
       }
       curtarget->ndep = curtarget->nargs;
 
-    }else if(strncmp(buffer, "INCLUDE ", 8) == 0) { 
+    }else if(strncmp(buffer, "INCLUDE ", 8) == 0) {
       /* Include a file */
 
       printf("Sorry line %d: Eventually you will be able to include other scripts (maybe)\n", linenr);
@@ -394,7 +414,7 @@ int parse_script(FILE *script)
 	}
       }
       /* buffer now contains command, str contains arguments */
-      
+
       /* Add a processing step to the current target */
       tmpproc = curtarget->process;
       curtarget->process = (TProcess**) malloc(sizeof(TProcess*)*(curtarget->nprocess + 1));
@@ -408,7 +428,7 @@ int parse_script(FILE *script)
       curtarget->nprocess++;
 
       /* Process arguments */
-      
+
       nprocargs = 0;
       q = 0;
       for(i=0;i<strlen(str);i++) {
@@ -450,9 +470,9 @@ int parse_script(FILE *script)
       }
       //printf("\n");
       curproc->nargs = 0;
-      
+
       /* Test what the command is */
-      
+
       if(strcmp(buffer, "SUBTRACT") == 0) {
 	/* Expect a single argument - should be a frame */
 	curproc->method = PROC_SUBTRACT;
@@ -464,14 +484,14 @@ int parse_script(FILE *script)
 	add_framearg(curproc, procarg[0]);
 	/* Add to dependency list */
 	add_dependency(curtarget, procarg[0]);
-	
+
       }else if(strcmp(buffer, "NORMALIZE") == 0) {
 	curproc->method = PROC_NORMALIZE;
 	if(nprocargs != 0) {
 	  printf("Error line %d: Normalize has no arguments\n", linenr);
 	  return(1);
 	}
-	
+
       }else if(strcmp(buffer, "AMPLIFY") == 0) {
 	curproc->method = PROC_AMPLIFY;
 	/* Should have one floating-point argument */
@@ -533,7 +553,7 @@ int parse_script(FILE *script)
 	  printf("Error line %d: Argument to sharpen is a floating point number\n", linenr);
 	  return(1);
 	}
-	  
+
       }else if(strcmp(buffer, "UNSHARP_MASK") == 0) {
 	curproc->method = PROC_UNSHARP_MASK;
 	if(nprocargs != 2) {
@@ -563,8 +583,8 @@ int parse_script(FILE *script)
       }
 
 
-    }/* End of process */   
-    
+    }/* End of process */
+
   }while((linenr = parse_nextline(script, buffer, MAX_LINE_LEN-1, 0)) != -1);
 
   return(0);
@@ -587,14 +607,14 @@ int resolve_script()
     target[i]->resolving = 0;   /* 1 if currently being resolved (prevent loops) */
     target[i]->calculated = UNKNOWN_FRAME; /* The ID of the frame for this target */
   }
-  
+
   command.ntemp = 0;      /* No intermediate frames */
   command.minimum_frame = UNKNOWN_FRAME; /* No minimum frame */
   command.average_frame = UNKNOWN_FRAME; /* No average frame */
   command.nsteps = 0;     /* No processing steps */
-  
+
   n = resolve_script_rec("OUTPUT"); /* Resolve the output target */
-  
+
   if((n != command.ntemp-1) || (n == UNKNOWN_FRAME)) { /* If worked properly, output should be last frame allocated */
     printf("Could not compile script\n");
     return(-1);
@@ -616,7 +636,7 @@ int resolve_script()
   return(0);
 }
 
-/* Recursive code to resolve dependencies. 
+/* Recursive code to resolve dependencies.
    Passed the name of a frame, returns ID */
 int resolve_script_rec(char *name)
 {
@@ -638,7 +658,7 @@ int resolve_script_rec(char *name)
       command.ntemp++;
       //printf("Assigning minimum frame to %d\n", command.minimum_frame);
     }
-    
+
     return(command.minimum_frame);
   }else if(strcmp(name, "AVERAGE") == 0) {
     if(command.average_frame == UNKNOWN_FRAME) {
@@ -648,7 +668,7 @@ int resolve_script_rec(char *name)
     }
     return(command.average_frame);
   }
-  
+
   /* Find the name in the list of targets */
   p = -1;
   for(i=0;i<ntargets;i++) {
@@ -658,7 +678,7 @@ int resolve_script_rec(char *name)
       i = ntargets;
     }
   }
-  
+
   if(p == -1) {
     /* Target not found */
     printf("Error: Frame %s is not defined\n", name);
@@ -677,7 +697,7 @@ int resolve_script_rec(char *name)
     /* frame not calculated yet */
     //printf("Frame %s not calculated yet\n", curtarget->name);
     /**************** Resolve dependencies **************/
-    
+
     curtarget->resolving = 1; /* Currently resolving */
     curtarget->dep_id = (int*) malloc(sizeof(int)*curtarget->ndep);
     for(i=0;i<curtarget->ndep;i++) {
@@ -691,7 +711,7 @@ int resolve_script_rec(char *name)
     curtarget->resolving = 0; /* Done resolving */
 
     /*********** Produce list of processing commands ***********/
-    
+
     /* Grab a frame number for the result */
     curtarget->calculated = command.ntemp;
     command.ntemp++;
@@ -702,7 +722,7 @@ int resolve_script_rec(char *name)
       /* More than one argument - have to concatenate */
       p = add_process(&command, curtarget->nargs);
       curproc = &(command.step[p]);
-      
+
       curproc->method = PROC_CONCATENATE;
       curproc->input = UNKNOWN_FRAME; /* Leave blank - all args are inputs */
       curproc->result = curtarget->calculated; /* Output frame */
@@ -717,7 +737,7 @@ int resolve_script_rec(char *name)
       /* No processing steps - copy input to output (not very useful, but hey) */
       p = add_process(&command, 0);
       curproc = &(command.step[p]);
-      
+
       curproc->method = PROC_COPY;
       /* Set the input frame */
       curproc->input = find_dependency(curtarget, curtarget->args[0]);
@@ -728,7 +748,7 @@ int resolve_script_rec(char *name)
       /* Just the one input being processed */
       next_input = find_dependency(curtarget, curtarget->args[0]); /* Read the input */
     }
-    
+
     /* Append the processing steps onto end of list. Returns index of first one added */
     q = append_processes(&command, curtarget->nprocess, curtarget->process);
 
@@ -745,7 +765,7 @@ int resolve_script_rec(char *name)
 	/* One argument - a frame */
 	curproc->args[0].frame = find_dependency(curtarget, curproc->args[0].name);
       }
-      
+
       /* Some processing cannot have the same input as output - check array */
       if(proc_noio[0] != PROC_NULL) { /* If there are any such commands */
 	j = 0;
@@ -857,7 +877,7 @@ void dummy_script(TCommands *cmd)
       printf(", %d) => ", proc->args[0].ival);
       targ_str(proc->result);
       break;
-    } 
+    }
     case PROC_KUWAHARA: {
       printf("Kuwahara(");
       targ_str(proc->input);
@@ -909,7 +929,7 @@ void dummy_script(TCommands *cmd)
       printf("Error! Unrecognised command %d", cmd->step[i].method);
     }
     }
-    
+
     printf("\n");
   }
   printf("===================================\n");
@@ -983,7 +1003,7 @@ int find_dependency(TTarget *targ, char *name)
 int add_arg(TProcess *process)
 {
   TProcArg *tmp;
-  
+
   tmp = process->args;
   process->args = (TProcArg*) malloc(sizeof(TProcArg)*(process->nargs+1));
   if(process->nargs > 0) {
@@ -1019,14 +1039,14 @@ int add_floatarg(TProcess *process, char *arg)
 {
   float val;
   int p;
-  
+
   if(sscanf(arg, "%f", &val) != 1) {
     return(1);
   }
-  
+
   p = add_arg(process);
   process->args[p].fval = val;
-  
+
   return(0);
 }
 
@@ -1035,14 +1055,14 @@ int add_intarg(TProcess *process, char *arg)
 {
   int val;
   int p;
-  
+
   if(sscanf(arg, "%d", &val) != 1) {
     return(1);
   }
-  
+
   p = add_arg(process);
   process->args[p].ival = val;
-  
+
   return(0);
 }
 
@@ -1058,7 +1078,7 @@ int add_process(TCommands *cmd, int nargs)
     memcpy(cmd->step, tmp, sizeof(TProcess)*cmd->nsteps);
     free(tmp);
   }
-  
+
   n = cmd->nsteps;
   cmd->nsteps++;
 
@@ -1080,7 +1100,7 @@ int append_processes(TCommands *cmd, int nproc, TProcess **proc)
 {
   TProcess *tmp;
   int i, n;
-  
+
   tmp = cmd->step;
   cmd->step = (TProcess*) malloc(sizeof(TProcess)*(nproc+cmd->nsteps));
   if(cmd->nsteps > 0) {
