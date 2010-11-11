@@ -1,6 +1,53 @@
-SPICE-WEASEL Photron image enhancement version 1.0
+SPICE-WEASEL image enhancement
+==============================
 
 Ben Dudson July 2006.
+
+Scriptable image processing, including of IPX format video files (used
+at CCFE/UKAEA for storing fast camera video)
+
+Released under MIT license, see COPYING for details
+
+Features
+--------
+
+o Reads and writes image files in BMP, PNG and JPEG2000 format
+o Reads and writes IPX formatted video files
+o Can perform batch processing on images. Designed mainly
+  for enhancing high speed video of plasmas.
+o Processing script format similar to Makefile
+o Can subtract background light from moving features in videos
+
+Known bugs / limitations
+------------------------
+
+o When using multiple threads (--enable-threads), can segfault. Error
+  seems to be in libpng but not resolved
+
+o Limited to greyscale videos only
+
+Compiling / Installing
+----------------------
+
+To compile, spiceweasel needs
+
+1. PNG library, such as the libpng12-dev Debian package
+2. libopenjpeg2, such as the libopenjpeg-dev Debian package
+
+After that, the standard GNU install process
+
+./configure
+make
+make install   # optional
+
+To set the install path, use the usual
+
+./configure --prefix=/path/to/install/
+
+A manual page will also be installed which contains basic usage instructions
+
+Running
+-------
 
 FORMAT:
 
